@@ -1,0 +1,10 @@
+33 |     # Tạo user mới với shell /bin/bash
+  34 | >>> RUN useradd -ms /bin/bash $user_name && \
+  35 | >>>     echo "$user_name:$user_name" | chpasswd && \
+  36 | >>>     adduser $user_name sudo
+  37 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c useradd -ms /bin/bash $user_name &&     echo \"$user_name:$user_name\" | chpasswd &&     adduser $user_name sudo" did not complete successfully: exit code: 1
+removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa_test1/dockerfiles/Dockerfile.rsa_test1.rsa_test1.student
+Tue Oct 22 08:45:09 PM PDT 2024
+Error in docker build result 1
