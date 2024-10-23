@@ -6,3 +6,15 @@ ERROR: failed to solve: process "/bin/sh -c useradd -ms /bin/bash $user_name" di
 removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa>
 Tue Oct 22 07:56:37 PM PDT 2024
 Error in docker build result 1
+
+ 32 |     #
+  33 |     ENV APT_SOURCE $apt_source
+  34 | >>> RUN /usr/bin/apt-source.sh
+  35 |     RUN apt-get update && apt-get install -y python3-pip && \
+  36 |         pip3 install --upgrade pip
+--------------------
+ERROR: failed to solve: process "/bin/sh -c /usr/bin/apt-source.sh" did not complete successfully: exit code: 127
+removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa_test1/dockerfiles/Dockerfile.rsa_test1.rsa_test1.student
+Tue Oct 22 08:27:17 PM PDT 2024
+Error in docker build result 1
+
