@@ -1,20 +1,64 @@
-Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-b>
-787.4 You are using pip version 8.1.1, however version 24.2 is available.
-787.4 You should consider upgrading via the 'pip install --upgrade pip' command.
+# Labtainer Dockerfile
+#
+#  This is the default Labtainer Dockerfile template, plesae choose the appropriate
+#  base image below.
+#
+# The labtainer.base image includes the following packages:
+#    build-essential  expect  file  gcc-multilib  gdb  iputils-ping  less  man  manpages-dev 
+#    net-tools  openssh-client  python  sudo  tcl8.6  vim  zip  hexedit  rsyslog
+#
+# The labtainer.network image adds the following packages:
+#   openssl openssh-server openvpn wget tcpdump  update-inetd  xinetd
+#
+ARG registry 
+FROM $registry/labtainer.firefox
+#
+FROM python:3.12.7
+#  lab is the fully qualified image name, e.g., mylab.some_container.student
+#  labdir is the name of the lab, e.g., mylab 
+#  imagedir is the name of the container
+#  user_name is the USER from the start.config, if other than ubuntu,
+#            then that user must be added in this dockerfile
+#            before the USER command
+#
+ARG lab
+ARG labdir
+ARG imagedir
+ARG user_name
+#ARG apt_source
+ARG apt
+#
+# Install the system files found in the _system directory
+#
+#ENV APT_SOURCE $apt_source
+ENV APT $apt
+#RUN /usr/bin/apt-source.sh
+RUN /usr/bin/apt.sh
+RUN apt-get update && apt-get install -y python3-pip && \
+    pip3 install --upgrade pip
+RUN pip3 install cryptography
+ADD $labdir/sys_$lab.tar.gz /
+#
+#  **** Perform all root operations, e.g.,           ****
+#  **** "apt-get install" prior to the USER command. ****
+#
+RUN useradd -ms /bin/bash $user_name
+RUN echo "$user_name:$user_name" | chpasswd
+RUN adduser $user_name sudo
+USER $user_name
+ENV HOME /home/$user_name
+ADD $labdir/$imagedir/home_tar/home.tar $HOME
+# remove after docker fixes problem with empty tars
+RUN rm -f $HOME/home.tar
 
-ERROR: failed to solve: process "/bin/sh -c useradd -ms /bin/bash $user_name" did not complete successfully: exit code:>
-removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa>
-Tue Oct 22 07:56:37 PM PDT 2024
-Error in docker build result 1
-
- 32 |     #
-  33 |     ENV APT_SOURCE $apt_source
-  34 | >>> RUN /usr/bin/apt-source.sh
-  35 |     RUN apt-get update && apt-get install -y python3-pip && \
-  36 |         pip3 install --upgrade pip
---------------------
-ERROR: failed to solve: process "/bin/sh -c /usr/bin/apt-source.sh" did not complete successfully: exit code: 127
-removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa_test1/dockerfiles/Dockerfile.rsa_test1.rsa_test1.student
-Tue Oct 22 08:27:17 PM PDT 2024
-Error in docker build result 1
-
+#
+# Install files in the user home directory
+#
+ADD $labdir/$lab.tar.gz $HOME
+#
+#  The first thing that executes on the container.
+#
+USER root
+CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
+#
+#  DO NOT add below this line.
