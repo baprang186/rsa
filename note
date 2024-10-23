@@ -1,3 +1,8 @@
 Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-b>
 787.4 You are using pip version 8.1.1, however version 24.2 is available.
 787.4 You should consider upgrading via the 'pip install --upgrade pip' command.
+
+ERROR: failed to solve: process "/bin/sh -c useradd -ms /bin/bash $user_name" did not complete successfully: exit code:>
+removing temporary Dockerfile.rsa_test1.rsa_test1.student, reference original in /home/student/labtainer/trunk/labs/rsa>
+Tue Oct 22 07:56:37 PM PDT 2024
+Error in docker build result 1
