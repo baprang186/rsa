@@ -20,7 +20,7 @@ def convergents(continued_fraction):
         convergents.append(frac)
     return convergents
 
-# Ham kiem tra xem k/d có phai la khoa bi mat dung hay khong
+# Ham kiem tra xem k/d co phai la khoa bi mat dung hay khong
 def wiener_attack(e, n):
     frac = continued_fraction(e, n)
     converg = convergents(frac)
