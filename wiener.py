@@ -1,7 +1,7 @@
 from math import isqrt
 from fractions import Fraction
 
-# Ham tinh phan so lien tuc cua mot phan so
+# Hàm tính phân số liên tục của một phân số
 def continued_fraction(numerator, denominator):
     result = []
     while denominator:
@@ -10,7 +10,7 @@ def continued_fraction(numerator, denominator):
         numerator, denominator = denominator, numerator - q * denominator
     return result
 
-# Ham tinh xap xi lien tiep cua phan so lien tuc
+# Hàm tính xấp xỉ liên tiếp của phân số liên tục
 def convergents(continued_fraction):
     convergents = []
     for i in range(len(continued_fraction)):
@@ -20,7 +20,7 @@ def convergents(continued_fraction):
         convergents.append(frac)
     return convergents
 
-# Ham kiem tra xem k/d co phai la khoa bi mat dung hay khong
+# Hàm kiểm tra xem k/d có phải là khóa bí mật đúng hay không
 def wiener_attack(e, n):
     frac = continued_fraction(e, n)
     converg = convergents(frac)
@@ -34,10 +34,10 @@ def wiener_attack(e, n):
         if k == 0:
             continue
 
-        # Tinh toan phi(n) tu d va e
+        # Tính toán phi(n) từ d và e
         phi_n = (e * d - 1) // k
 
-        # Giai phuong trinh bac 2 de tim p va q
+        # Giải phương trình bậc hai để tìm p và q
         a = 1
         b = -(n - phi_n + 1)
         c = n
@@ -53,12 +53,14 @@ def wiener_attack(e, n):
 
     return None
 
-# Vi du RSA bi tan cong
-e = 17993
-n = 90581
+# Ví dụ RSA bị tấn công
+#e = 17993
+#n = 90581
+e=int(input("Nhap e:"))
+n=int(input("Nhap n:"))
 d = wiener_attack(e, n)
 
 if d:
-    print("Tim thay khoa bi mat d:", d)
+    print(f"Tìm thấy khóa bí mật d: {d}")
 else:
-    print("Khong tim thay khoa bi mat.")
+    print("Không tìm thấy khóa bí mật.")
