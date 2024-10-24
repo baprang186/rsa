@@ -11,3 +11,8 @@ task 2: Tính giá trị tham số.
 task1: dùng genkey.py
 
 task2: dùng wiener.py
+
+
+conditions
+
+giá trị bản rõ message < n
